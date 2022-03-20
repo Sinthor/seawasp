@@ -30,3 +30,4 @@ chrome-profiler-events*.json
 # System Files
 .DS_Store
 Thumbs.db
+*.tgz

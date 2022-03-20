@@ -11,38 +11,41 @@ export class ICEService {
   public serverConnections = new Array<RTCPeerConnection>();
 
   constructor() {}
-  //  public serverChannels = new Array<RTCDataChannel>();
-
   public registerConnection(name: string): Connection {
     const server = new RTCPeerConnection();
     const remote = new RTCPeerConnection();
     const connect = new Connection();
-    const sendChannel = server.createDataChannel(name);
+
+    const serverChannel = server.createDataChannel(name);
     connect.sendChannel = remote.createDataChannel(name);
     connect.connection = remote;
+
     this.addIceCandidate(server, remote);
+
     server.ondatachannel = (event: RTCDataChannelEvent) => {
       const channel = event.channel;
       channel.onmessage = (event: any) => {
-        console.log('DATA: ', event);
         const receiverLabel = JSON.parse(event.data).receiver;
         const receiver = window.serverChannels.find(
           (c) => c.label === receiverLabel
         );
-        console.log(window.serverChannels);
         if (receiver) {
           receiver.send(event.data);
         }
       };
     };
+
     this.createOffer(server, remote);
-    window.serverChannels.push(sendChannel);
+    window.serverChannels.push(serverChannel);
     this.remoteConnections.push(remote);
     this.serverConnections.push(server);
     return connect;
   }
 
-  public addIceCandidate(server: RTCPeerConnection, remote: RTCPeerConnection) {
+  private addIceCandidate(
+    server: RTCPeerConnection,
+    remote: RTCPeerConnection
+  ): void {
     remote.onicecandidate = (e: any) => {
       if (e.candidate) {
         server.addIceCandidate(e.candidate).catch(this.handleAddCandidateError);
@@ -55,8 +58,10 @@ export class ICEService {
     };
   }
 
-  public createOffer(server: RTCPeerConnection, remote: RTCPeerConnection) {
-    // Now create an offer to connect; this starts the process
+  private createOffer(
+    server: RTCPeerConnection,
+    remote: RTCPeerConnection
+  ): void {
     remote
       .createOffer()
       .then((offer: any) => remote.setLocalDescription(offer))
@@ -75,10 +80,10 @@ export class ICEService {
       .catch(this.handleCreateDescriptionError);
   }
 
-  public handleAddCandidateError() {
+  private handleAddCandidateError(): void {
     console.log('Oh noes! addICECandidate failed!');
   }
-  public handleCreateDescriptionError(error: any) {
+  private handleCreateDescriptionError(error: any): void {
     console.log('Unable to create an offer: ' + error.toString());
   }
 }
