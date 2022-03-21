@@ -59,8 +59,11 @@
 
 ## Examples
 
+#### SeaWasp + Javascript
+This example shows a basic conceptual usage of SeaWasp with plain javascript.  
+https://stackblitz.com/edit/js-hbdyqn?file=index.js
+
 #### SeaWasp + Angular
 This example simply shows how to communicate between two components.   
 NOTE! This works the same if you create web-components out of it.  
 https://stackblitz.com/edit/angular-ivy-4h5gzm  
-https://angular-ivy-4h5gzm.stackblitz.io
