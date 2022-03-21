@@ -1,10 +1,11 @@
 {
-  "name": "ts_lib",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "name": "seawasp",
+  "version": "0.2.0",
+  "description": "SeaWasp - framework and web-component interoperable RTC communication",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "prepublish": "tsc"
   },
   "keywords": [],
   "author": "",
@@ -12,10 +13,7 @@
   "devDependencies": {
     "typescript": "^4.6.2"
   },
-  "dependencies": {
-    "rxjs": "^7.5.5"
-  },
   "files": [
-    "lib/**/*"
+    "dist/**/*"
   ]
 }
