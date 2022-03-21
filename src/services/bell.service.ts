@@ -6,7 +6,10 @@ declare global {
 }
 window.serverChannels = window.serverChannels || [];
 export class Bell {
-  constructor() {}
+  get registeredTentacles() {
+    return window.serverChannels;
+  }
+
   public registerTentacle(name: string): Canal {
     // Create the neccessary objects
     const bellCanal = new RTCPeerConnection();
@@ -35,16 +38,23 @@ export class Bell {
   private onDataChannel(event: RTCDataChannelEvent): void {
     const channel = event.channel;
     channel.onmessage = (event: any) => {
-      // TODO JSON.parse erro handling
-      const receiverLabel = JSON.parse(event.data).receiver;
-      const receiver = window.serverChannels.find(
-        (c) => c.label === receiverLabel
-      );
-      if (receiver) {
-        receiver.send(event.data);
+      try {
+        const receiverLabel = JSON.parse(event.data).receiver;
+        const receiver = window.serverChannels.find(
+          (c) => c.label === receiverLabel
+        );
+        if (receiver) {
+          receiver.send(event.data);
+        } else {
+          console.log(
+            'No matching receiver found. Make sure that the specified receiver is correct and registered.'
+          );
+        }
+      } catch (error) {
+        console.log(error);
       }
     };
-    // TODO onclose, onerror etc.
+    channel.onerror = (event: any) => console.log('OnError: ', event);
   }
 
   private addIceCandidate(
