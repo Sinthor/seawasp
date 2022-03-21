@@ -1,7 +1,11 @@
 {
   "name": "seawasp",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "SeaWasp - framework and web-component interoperable RTC communication",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Sinthor/seawasp.git"
+  },
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
