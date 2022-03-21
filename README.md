@@ -1,6 +1,6 @@
 # SeaWasp
 
-<b>SeaWasp</b> enables different (web)-components or libraries to communicate which each other via a simple to use WebRTC layer.
+<b>SeaWasp</b> enables different (web)-components or libraries to communicate with each other via a simple to use WebRTC layer.
 
 ## Potential use cases
 
