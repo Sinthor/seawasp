@@ -33,7 +33,11 @@ export class Canal {
     }
   }
   public send(data: Message): void {
-    this._sendChannel.send(JSON.stringify(data));
+    try {
+      this._sendChannel.send(JSON.stringify(data));
+    } catch (error) {
+      console.log(error);
+    }
   }
   public close(): void {
     this._sendChannel.close();
