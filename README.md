@@ -1,4 +1,5 @@
-# SeaWasp
+
+# SeaWasp <img align=center src="https://user-images.githubusercontent.com/26249232/159450932-dab67429-3e06-41e6-9be0-c645012e9eda.png">
 
 <b>SeaWasp</b> enables different (web)-components or libraries to communicate with each other via a simple to use WebRTC layer.
 
