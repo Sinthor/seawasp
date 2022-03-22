@@ -3,3 +3,5 @@ export type Message = {
   sender: string;
   payload: Object | string;
 };
+
+export type ConfirmMessage = Message & { received: boolean };
