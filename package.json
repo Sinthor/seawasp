@@ -1,6 +1,6 @@
 {
   "name": "seawasp",
-  "version": "0.2.4",
+  "version": "0.2.5",
   "description": "SeaWasp - framework and web-component interoperable RTC communication",
   "repository": {
     "type": "git",
