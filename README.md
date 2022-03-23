@@ -1,11 +1,17 @@
 # SeaWasp
 
-<b>SeaWasp</b> enables different (web)-components or libraries to communicate with each other via a simple to use WebRTC layer.
+<b>SeaWasp</b> enables different (web)-components or libraries to communicate with each other via a simple to use WebRTC layer.  
 
-## Potential use cases
+[Use cases](##use-cases)
+
+[How to](##how-to)
+
+[Examples](##examples)
+
+## Use cases
 
 <b>Communication</b>
-- between web components (independed from the underlying libraries)
+- between web components
 - between micro frontends
 - between different frameworks (e.g. a website, partly written in Vue, partly in Angular)
 - within a framework
@@ -13,48 +19,58 @@
 
 ## How to
 
-#### Install SeaWasp via <b>npm</b>
+### Install SeaWasp via <b>npm</b>
 
 <code>npm install seawasp</code>
 
-#### Import SeaWasp into your components and create two objects  
+### Import SeaWasp in each component you want to connect to the RTC-layer and create a `Bell`.  
   
 ```ts
+  // NavigationComponent
   import { SeaWasp } from 'seawasp';
   ...
-  let canal: SeaWasp.Canal;  
   const bell = new SeaWasp.Bell();
 ```
-
-#### Connect to the SeaWasp layer by creating a tentacle and give it a unique identifier
 ```ts
-    this.canal = this.bell.registerTentacle('uniqueComponentIndentifier');
+  // MenuComponent
+  import { SeaWasp } from 'seawasp';
+  ...
+  const bell = new SeaWasp.Bell();
 ```
-
-#### Listen to events and messages
-
+### Connect to the SeaWasp layer by creating a tentacle and give it a unique identifier. This identifier is used from other components to send messages to this component.
 ```ts
-    this.canal.onMessage = (event) => {
-      console.log('Message: ', event.data);
-    };
-    this.canal.onOpen = (event) => ...
-    this.canal.onClose = (event) => ...
-    this.canal.onError = (event) => ...
+  // NavigationComponent
+  const canal: SeaWasp.Canal = this.bell.registerTentacle('NavigationComponent');
+
+  canal.onMessage = (event) => console.log('Received message: ', event.data);
+  canal.onOpen = (event) => ...
+  canal.onClose = (event) => ...
+  canal.onError = (event) => ...
 ```
-#### Send messages to other components/listeners etc.
 ```ts
-    var data: SeaWasp.Message = {
-      // As receiver enter the unique identifier string you specified while registering the tentacle in the OTHER component
-      receiver: 'otherComponentIdentifier',
-      // The identifier string, specified a few lines above
-      sender: 'uniqueComponentIndentifier',
-      // payload accepts any kind of string or object which can be JSON.stringify.
-      payload: {
-        msg: 'Hello component',
-      },
-    };
-    // Send it!
-    this.canal.send(data);
+  // MenuComponent
+  const canal: SeaWasp.Canal = this.bell.registerTentacle('MenuComponent');
+
+  canal.onMessage = (event) => console.log('Received message: ', event.data);
+  canal.onOpen = (event) => ...
+  canal.onClose = (event) => ...
+  canal.onError = (event) => ...
+```
+### Send messages to other components/listeners etc.
+```ts
+// NavigationComponent
+var data: SeaWasp.Message = {
+  // As receiver enter the unique identifier string from the component you want to send a message to
+  receiver: 'MenuComponent',
+  // The identifier string from this component
+  sender: 'NavigationComponent',
+  // payload accepts a string or object which can be JSON.stringify.
+  payload: {
+    msg: 'Hello Menu',
+  },
+};
+// Send it!
+this.canal.send(data).then((wasSuccessful) => console.log('Successfully sent: ', wasSuccessful));
 ```
 
 ## Examples
